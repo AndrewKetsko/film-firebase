@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { paginationStorage, paginationMyLibrary } from '../pagination/pagination';
+import { paginationStorage, paginationFunc } from '../pagination/pagination';
 import {
   getAuth,
   onAuthStateChanged,
@@ -11,12 +11,12 @@ import {
   onAuthStateChanged,
   signOut,
 } from 'firebase/auth ';
-import { getFirestore, collection, getDocs, getDoc } from 'firebase/firestore';
+// import { getFirestore, collection, getDocs, getDoc } from 'firebase/firestore';
 import { getDatabase, ref, set } from 'firebase/database';
 import { ref, uploadString } from 'firebase/storage';
 import { refs } from '../refs';
 import { getStorage, setStorage } from '../localStorage/localStorage';
-import renderMoviesList from '../html-render';
+// import renderMoviesList from '../html-render';
 import { Notify } from 'notiflix';
 import { startingRender } from '../starting-fetch/starting-fetch';
 
