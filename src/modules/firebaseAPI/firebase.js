@@ -36,7 +36,7 @@ export const db = getDatabase(app);
 export const provider = new GoogleAuthProvider();
 // export const storage = getStorage(app);
 // export const storageRef = ref(storage); //second argument is a folder to store, like user id
-
+let pagination;
 export const loginMonitor = async () => {
   onAuthStateChanged(auth, user => {
     if (user) {
@@ -53,7 +53,7 @@ export const loginMonitor = async () => {
       refs.buttonRefHome.classList.remove('header-nav--active');
       refs.divRefWatchedQueue.style.display = 'flex';
     //   const queue = getStorage(refs.QUEUE);
-      paginationStorage(refs.QUEUE, paginationMyLibrary); // showLoginState(user); show user info
+      paginationStorage(refs.QUEUE, pagination); // showLoginState(user); show user info
     } else {
       refs.divRefButtonLibrary.classList.remove(
         'header-logo__library--position'
@@ -85,6 +85,12 @@ export const logoutFunc = async e => {
   console.log(userID);
   console.log(db_obj);
 
+
+  try {
+    set(ref(db, 'user/' + userID), db_obj);
+  } catch (error) {
+    console.log(error);
+  }
     // set(ref(db, 'user/' + userID), db_obj);
   //CANT FIND PATH ERROR
 

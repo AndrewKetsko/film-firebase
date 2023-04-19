@@ -34,7 +34,7 @@ export function onClickMyLibraryButton() {
             // IdP data available using getAdditionalUserInfo(result)
             // ...
             console.log(user);
-                Notify.info('You Logged In');
+            Notify.info('You Logged In');
 
             refs.divRefButtonLibrary.classList.add(
               'header-logo__library--position'
@@ -42,6 +42,7 @@ export function onClickMyLibraryButton() {
             refs.buttonRefLibrary.classList.add('header-nav--active');
             refs.buttonRefHome.classList.remove('header-nav--active');
             refs.divRefWatchedQueue.style.display = 'flex';
+            paginationStorage(refs.QUEUE, paginationMyLibrary);
           })
           .catch(error => {
             console.log(error);
