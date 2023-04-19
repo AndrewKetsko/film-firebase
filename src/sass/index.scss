@@ -1,2 +1,18 @@
-@import './common';
-@import './example';
+@import '~node_modules/modern-normalize/modern-normalize.css';
+@import './utils/variables';
+@import './base/reset';
+@import './utils/transitions';
+@import './utils/fonts';
+@import './base/container';
+@import './base/backdrop';
+@import './components/arrow-link';
+@import './components/header';
+@import './components/theme-switch';
+@import './components/film-list';
+@import './components/film_info_modal';
+
+@import './components/footer';
+@import './components/modal_team';
+
+@import './components/player';
+@import './components/pagination';
