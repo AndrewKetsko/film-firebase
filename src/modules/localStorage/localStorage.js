@@ -53,6 +53,9 @@ export const getItemFromStorage = (section, id) => {
 
 export const setStorage = (section, filmInfo) => {
   const dataArr = getStorage(section);
+  if (section === 'user') {
+    localStorage.setItem(section, JSON.stringify(filmInfo));
+  }
   if (dataArr.find(film => film.id === filmInfo.id)) {
     return; // if saved already
   }
