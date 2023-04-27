@@ -51,6 +51,11 @@ export const getItemFromStorage = (section, id) => {
   return getStorage(section).find(film => film.id === id); // return element or undefined if didnt find
 };
 
+export const setStorageFromFireBase = (obj) => { 
+  const keys = Object.keys(obj);
+  keys.forEach(key => localStorage.setItem(key, JSON.stringify(obj[key])));
+};
+
 export const setStorage = (section, filmInfo) => {
   const dataArr = getStorage(section);
   if (section === 'user') {
