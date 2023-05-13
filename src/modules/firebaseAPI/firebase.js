@@ -16,6 +16,7 @@ import { getDatabase, ref, set } from 'firebase/database';
 import { ref, uploadString } from 'firebase/storage';
 import { refs } from '../refs';
 import {
+  clearStorage,
   getStorage,
   setStorage,
   setStorageFromFireBase,
@@ -55,32 +56,26 @@ let paginationMyLibrary;
 
 export const signInWithGoogle = () => {
   signInWithPopup(auth, provider)
-  .then(result => {
-    // This gives you a Google Access Token. You can use it to access the Google API.
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    const token = credential.accessToken;
-    // The signed-in user info.
-    const user = result.user;
-    // IdP data available using getAdditionalUserInfo(result)
-    Notify.info('You Logged In');
-
-    refs.divRefButtonLibrary.classList.add('header-logo__library--position');
-    refs.buttonRefLibrary.classList.add('header-nav--active');
-    refs.buttonRefHome.classList.remove('header-nav--active');
-    refs.divRefWatchedQueue.style.display = 'flex';
-    paginationStorage(refs.QUEUE, paginationMyLibrary);
-  })
-  .catch(error => {
-    console.log(error);
-    // Handle Errors here.
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // The email of the user's account used.
-    // const email = error.customData.email;
-    // The AuthCredential type that was used.
-    const credential = GoogleAuthProvider.credentialFromError(error);
-    // ...
-  })
+    .then(result => {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      // The signed-in user info.
+      const user = result.user;
+      // IdP data available using getAdditionalUserInfo(result)
+      Notify.info('You Logged In');
+    })
+    .catch(error => {
+      console.log(error);
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // The email of the user's account used.
+      // const email = error.customData.email;
+      // The AuthCredential type that was used.
+      const credential = GoogleAuthProvider.credentialFromError(error);
+      // ...
+    });
 };
 
 export const loginMonitor = async () => {
@@ -99,13 +94,16 @@ export const loginMonitor = async () => {
       refs.buttonRefLibrary.classList.add('header-nav--active');
       // refs.buttonRefLibrary.style.opacity = '0.5';
       refs.buttonRefLibrary.style.cursor = 'auto';
-      refs.buttonRefLibrary.disabled = true;
+      // refs.buttonRefLibrary.disabled = true;
       //...add disabled;
       refs.buttonRefHome.classList.remove('header-nav--active');
       refs.divRefWatchedQueue.style.display = 'flex';
       //   const queue = getStorage(refs.QUEUE);
-      paginationStorage(refs.QUEUE, pagination); // showLoginState(user); show user info
+      paginationStorage(refs.QUEUE, paginationMyLibrary);
+      console.log('were in');
+      refs.buttonRefLibrary.textContent = 'LOG OUT';
     } else {
+      console.log('were out');
       refs.divRefButtonLibrary.classList.remove(
         'header-logo__library--position'
       );
@@ -113,9 +111,12 @@ export const loginMonitor = async () => {
       refs.buttonRefHome.classList.add('header-nav--active');
       refs.buttonRefLibrary.style.opacity = '1';
       refs.buttonRefLibrary.style.cursor = 'pointer';
-      refs.buttonRefLibrary.disabled = false;
+      refs.divRefWatchedQueue.style.display = 'none';
+
+      // refs.buttonRefLibrary.disabled = false;
       //   refs.buttonRefLibrary....add anabled;
       refs.divRefWatchedQueue.style.display = 'none';
+      refs.buttonRefLibrary.textContent = 'LOG IN';
       startingRender();
       //return to login form
     }
@@ -130,7 +131,7 @@ export const saveFireStore = async () => {
 
   try {
     const docRef = await setDoc(doc(fireStore, 'users', userID), db_obj);
-    console.log('save');
+    // console.log('save');
   } catch (error) {
     console.log(error);
   }
@@ -139,6 +140,8 @@ export const saveFireStore = async () => {
 export const logoutFunc = async e => {
   // saveFireStore();
   await signOut(auth);
+  // loginMonitor();
   Notify.info('You Logged Out');
+  localStorage.clear();
   startingRender();
 };

@@ -2,7 +2,7 @@ import { refs } from '../refs';
 import { Notify } from 'notiflix';
 import { signInWithPopup } from 'firebase/auth ';
 import { auth, provider } from '../firebaseAPI/firebase';
-import { loginMonitor, signInWithGoogle } from '../firebaseAPI/firebase';
+import { loginMonitor, signInWithGoogle, logoutFunc } from '../firebaseAPI/firebase';
 import {
   getAuth,
   onAuthStateChanged,
@@ -24,8 +24,7 @@ export function onClickMyLibraryButton() {
   // refs.buttonRefHome.classList.remove('header-nav--active');
   // refs.divRefWatchedQueue.style.display = 'flex';
   // paginationStorage(refs.QUEUE, paginationMyLibrary);
-  signInWithGoogle();
-  loginMonitor();
-};
-
-
+  if (refs.buttonRefLibrary.textContent === 'LOG IN') {signInWithGoogle()};
+  if (refs.buttonRefLibrary.textContent === 'LOG OUT') {logoutFunc()};
+  // loginMonitor();
+}

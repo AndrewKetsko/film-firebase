@@ -58,10 +58,11 @@ export const setStorageFromFireBase = obj => {
 };
 
 export const setStorage = (section, filmInfo) => {
-  const dataArr = getStorage(section);
   if (section === 'user') {
     localStorage.setItem(section, JSON.stringify(filmInfo));
+    return;
   }
+  const dataArr = getStorage(section);
   if (dataArr.find(film => film.id === filmInfo.id)) {
     return; // if saved already
   }
@@ -94,5 +95,5 @@ export const delFromStorage = (section, id) => {
 
 export const clearStorage = section => {
   localStorage.removeItem(section);
-  saveFireStore();
+  // saveFireStore();
 };
