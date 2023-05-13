@@ -6,6 +6,7 @@ import {
 import { refs } from '../refs';
 import { toggleWatchedBtn } from './toggleButton';
 import renderMoviesList from '../html-render';
+import { saveFireStore } from '../firebaseAPI/firebase';
 
 export function handleWatchedClick(event) {
   const button = event.target;
@@ -22,18 +23,17 @@ export function handleWatchedClick(event) {
   const releaseDate = button.dataset.release_date;
   const name = button.dataset.name;
   const title = button.dataset.title;
+  const filmInfo = {
+    id: trailerId,
+    name,
+    title,
+    original_title: originalTitle,
+    poster_path: posterPath,
+    genre_ids: genreIds,
+    release_date: releaseDate,
+  };
 
   if (button.classList.contains('add-watched')) {
-    const filmInfo = {
-      id: trailerId,
-      name,
-      title,
-      original_title: originalTitle,
-      poster_path: posterPath,
-      genre_ids: genreIds,
-      release_date: releaseDate,
-    };
-
     setStorage(refs.WATCHED, filmInfo);
     toggleWatchedBtn();
     return;
@@ -51,34 +51,29 @@ export function handleWatchedClick(event) {
 export function handleQueueClick(event) {
   const button = event.target;
   const trailerId = button.dataset.id;
-  const originalTitle = document.getElementById('original-title').textContent;
+  const originalTitle = button.dataset.original_title;
   const fullPosterPath = document
     .getElementById('film-modal-image')
     .getAttribute('src');
   const posterPath = fullPosterPath.slice(fullPosterPath.lastIndexOf('/') + 0);
-  const genreIdsString = document
-    .getElementById('js-queue')
-    .getAttribute('data-genre_ids');
+  const genreIdsString = button.dataset.genre_ids;
   const genreIds = genreIdsString
     ? genreIdsString.split(' ').map(id => parseInt(id))
     : [12];
-  const releaseDate = document
-    .getElementById('js-queue')
-    .getAttribute('data-release_date');
+  const releaseDate = button.dataset.release_date;
   const name = button.dataset.name;
   const title = button.dataset.title;
+  const filmInfo = {
+    id: trailerId,
+    name,
+    title,
+    original_title: originalTitle,
+    poster_path: posterPath,
+    genre_ids: genreIds,
+    release_date: releaseDate,
+  };
 
   if (button.classList.contains('add-queue')) {
-    const filmInfo = {
-      id: trailerId,
-      name,
-      title,
-      original_title: originalTitle,
-      poster_path: posterPath,
-      genre_ids: genreIds,
-      release_date: releaseDate,
-    };
-
     setStorage(refs.QUEUE, filmInfo);
     toggleWatchedBtn();
     return;

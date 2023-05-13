@@ -19,6 +19,7 @@
 //   "release_date": "2023-03-15",
 // }
 
+import { saveFireStore } from '../firebaseAPI/firebase';
 import { refs } from '../refs';
 
 export const getStorage = (
@@ -51,7 +52,7 @@ export const getItemFromStorage = (section, id) => {
   return getStorage(section).find(film => film.id === id); // return element or undefined if didnt find
 };
 
-export const setStorageFromFireBase = (obj) => { 
+export const setStorageFromFireBase = obj => {
   const keys = Object.keys(obj);
   keys.forEach(key => localStorage.setItem(key, JSON.stringify(obj[key])));
 };
@@ -74,10 +75,11 @@ export const setStorage = (section, filmInfo) => {
 
   localStorage.setItem(section, JSON.stringify(dataArr));
   // del from other section code here
-  // delFromStorage(
-  //   section === refs.WATCHED ? refs.QUEUE : refs.WATCHED,
-  //   filmInfo.id
-  // );
+  delFromStorage(
+    section === refs.WATCHED ? refs.QUEUE : refs.WATCHED,
+    filmInfo.id
+  );
+  saveFireStore();
 };
 
 export const delFromStorage = (section, id) => {
@@ -87,8 +89,10 @@ export const delFromStorage = (section, id) => {
   }
   const filtered = dataArr.filter(film => film.id !== id);
   localStorage.setItem(section, JSON.stringify(filtered));
+  saveFireStore();
 };
 
 export const clearStorage = section => {
   localStorage.removeItem(section);
+  saveFireStore();
 };
