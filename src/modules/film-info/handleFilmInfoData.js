@@ -31,7 +31,6 @@ export function handleFilmInfoData(data, watchedBtnRef, queueBtnRef) {
     queueBtnRef.classList.add('remove-queue');
     queueBtnRef.textContent = 'Remove from Queue';
     queueBtnRef.classList.add('buttons-list__button--black');
-    console.log(queueBtnRef);
   } else {
     queueBtnRef.classList.remove('remove-queue');
     queueBtnRef.classList.add('add-queue');
