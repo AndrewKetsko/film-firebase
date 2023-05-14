@@ -36,12 +36,16 @@ export function handleWatchedClick(event) {
   if (button.classList.contains('add-watched')) {
     setStorage(refs.WATCHED, filmInfo);
     toggleWatchedBtn();
-    renderMoviesList(getStorage(refs.WATCHED));
-    return;
+  } else {
+    delFromStorage(refs.WATCHED, trailerId);
+    toggleWatchedBtn();
   }
-  delFromStorage(refs.WATCHED, trailerId);
-  toggleWatchedBtn();
-  renderMoviesList(getStorage(refs.WATCHED));
+  if (
+    !refs.buttonRefHome.classList.contains('header-nav--active') &&
+    refs.buttonRefWatched.classList.contains('header-button__library--active')
+  ) {
+    renderMoviesList(getStorage(refs.WATCHED));
+  }
 }
 
 export function handleQueueClick(event) {
@@ -72,10 +76,14 @@ export function handleQueueClick(event) {
   if (button.classList.contains('add-queue')) {
     setStorage(refs.QUEUE, filmInfo);
     toggleWatchedBtn();
-    renderMoviesList(getStorage(refs.QUEUE));
-    return;
+  } else {
+    delFromStorage(refs.QUEUE, trailerId);
+    toggleWatchedBtn();
   }
-  delFromStorage(refs.QUEUE, trailerId);
-  toggleWatchedBtn();
-  renderMoviesList(getStorage(refs.QUEUE));
+  if (
+    !refs.buttonRefHome.classList.contains('header-nav--active') &&
+    refs.buttonRefQueue.classList.contains('header-button__library--active')
+  ) {
+    renderMoviesList(getStorage(refs.QUEUE));
+  }
 }
